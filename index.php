@@ -23,7 +23,7 @@
 
 	      </div>
 
-	              <h2> Bienvenue </h2>
+	              <h2> Bonjour </h2>
 	              <p class= "lead text-muted"> Netflix vous propose des films et des séries ! </p>
 
       </section>
