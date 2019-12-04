@@ -6,142 +6,107 @@
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-  <body>
-
-	  <section class="jumbotron text-center">
-
-	      <div class="container">
-
-	            <h1 class "jumbotron-heading">
-	                <?php
-
-              $site = "Netflix";
-              echo $site;
-                  ?>
-
-	            </h1>
-
-	      </div>
-
-	              <h2> Bonjour </h2>
-	              <p class= "lead text-muted"> Netflix vous propose des films et des séries ! </p>
-
-      </section>
-
-        <div id="demo" class="carousel slide" data-ride="carousel">
-
-            <!-- Indicators -->
-
-            <ul class="carousel-indicators">
-              <li data-target="#demo" data-slide-to="0" class="active"></li>
-              <li data-target="#demo" data-slide-to="1"></li>
-              <li data-target="#demo" data-slide-to="2"></li>
-            </ul>
-
-            <!-- The slideshow -->
-  
-            <div class="carousel-inner">
-
-                <div class="carousel-item active">
-
-                  <img src="89435607_o.jpg" alt="Dans les hautes herbes">
-
-                </div>
-
-                <div class="carousel-item">
-
-                  <img src="89435607_o.jpg" alt="les 100">
-
-                </div>
-
-                <div class="carousel-item">
-      
-                  <img src="89435607_o.jpg" alt=" ">
-    
-                </div>
-
-              </div>
-
-            <!-- Left and right controls -->
-
-                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
-
-                          <span class="carousel-control-prev-icon"></span>
-  
-                    </a>
-  
-                    <a class="carousel-control-next" href="#demo" data-slide="next">
-    
-                          <span class="carousel-control-next-icon"></span>
- 
-                     </a>
-
-                </div>
-  
-                      <?php
-                        
-                          function card($titre, $image, $description)
-                          {
-
-                          echo "<div class=\"col-lg-3 col-sm-12 col-md-6\">
-                <div class=\"card\">
-                          <img class=\"card-img-top\" src=\"$image\" alt=\"Card image\">
-                  
-                <div class=\"card-body\">
-                          <h4 class=\"card-title\"> $titre </h4>
-                          <p class=\"card-text\"> $description </p>
-                          <a href=\"#\" class=\"btn btn-primary\"> accéder </a>
- 
-                </div>
-                </div>
-                </div>";
-
+<body>
+    <section class="jumbotron text-center">
+        <?php
+function card($titre, $image, $description, $lien)
+{
+    echo "<div class=\"col-lg-3 col-sm-12 col-md-6\">
+       <div class=\"card\">
+        <img class=\"card-img-top\" src=\"$image\" alt=\"Card image\">
+            <div class=\"card-body\">
+            <h4 class=\"card-title\">$titre</h4>
+            <p class=\"card-text\">$description</p>
+            <a href=\"$lien\" class=\"btn btn-primary\">Voir le film</a>
+            <span class=\"badge badge-dark\">New</span>
+         </div> </div> </div>";
 }
 ?>
+        <div class="container">
+            <h1 class="jumbotron-heading">
+                <?php
+$site = "NetFlix";
+echo $site;
+?>
+            </h1>
+            <h2>Bonjours et bienvenue sur Netflix, meilleur site de streaming</h2>
+        </div>
+        <p class="lead text-muted">abonnement a 9,99 par mois seullement </p>
+    </section>
+    <div id="demo" class="carousel slide" data-ride="carousel">
 
+<!-- Indicators -->
+<ul class="carousel-indicators">
+  <li data-target="#demo" data-slide-to="0" class="active"></li>
+  <li data-target="#demo" data-slide-to="1"></li>
+  <li data-target="#demo" data-slide-to="2"></li>
+</ul>
 
-<div class="container">
-	<div class="row">
-    <?php
+<!-- The slideshow -->
+<div class="carousel-inner">
+  <div class="carousel-item active">
+    <img src="net.jpg" alt="Dans les hautes herbes">
+  </div>
+  <div class="carousel-item">
+    <img src="ant-man.jpg" alt="les 100">
+  </div>
+  <div class="carousel-item">
+    <img src="89435607_o.jpg" alt=" ">
+  </div>
+</div>
 
-  $film1 = ["titre"=>"The 100","image"=>"the 100 2.jpg","description"=>"bonne série"];
-  $film2 = ["titre"=>"Dans les hautes herbes","image"=>"net.jpg","description"=>"bon film"];
-  $film3 = ["titre"=>"riverdale","image"=>"riverdale.jpg","description"=>"super show"];
-  $film4 = ["titre" => "Le Roi Lion","image" => "https://image.tmdb.org/t/p/original/7QqLsDKe3myax9mfQf5EvJ2qk6u.jpg","description" => "super",];
+<!-- Left and right controls -->
+<a class="carousel-control-prev" href="#demo" data-slide="prev">
+  <span class="carousel-control-prev-icon"></span>
+</a>
+<a class="carousel-control-next" href="#demo" data-slide="next">
+  <span class="carousel-control-next-icon"></span>
+</a>
 
-  require("parametres.php");
+</div>
+    <div class="container">
+        <div class="row">
 
-  $dbh=new PDO ("mysql:host=$host;dbname=$dbname",$login,$password);
-
-  if (array_key_exists("annee", $_GET)){
-    $annee=$_GET["annee"];
-    $req = $dbh -> prepare(
-      "SELECT * FROM film WHERE annee = :annee");
-    $req->bindParam(":annee",$annee);
+            <?php
+require "parametres.php";
+$dbh = new PDO("mysql:host=$host;dbname=$dbname", $login, $password);
+if (array_key_exists("annee", $_GET)) {
+    $annee = $_GET["annee"];
+    $req = $dbh->prepare("SELECT * FROM film WHERE annee=:annee");
+    $req->bindParam(":annee", $annee);
     $req->execute();
-    $films=$req;
-  }
+    $films = $req;
+} else {
 
-  else{
+    $req = $dbh->query("SELECT * FROM film WHERE 1");
+    $films = $req;
+}
 
-  $req=$dbh -> query ("SELECT * FROM film");
-  $films=$req;
-  }
+if (array_key_exists("genre", $_GET)) {
+    $genre = $_GET["genre"];
+    $req = $dbh->prepare("SELECT * FROM film INNER JOIN genre ON film.genre_id = genre.id WHERE genre.libelle = $genre");
+    $req->bindParam(":genre", $genre);
+    $req->execute();
+    $films = $req;
+} else {
 
-  $films2=[$film1,$film2,$film3,$film4];
+    $req = $dbh->query("SELECT * FROM film WHERE 1");
+    $films = $req;
+}
 
-  foreach ($films as $film){
-    card($film["titre"],$film["image"],$film["description"]);
-  }
+foreach ($films as $film) {
+
+    card($film["titre"], $film["image"], $film["description"], $film["lien"]);
+}
 
 ?>
-	</div>
-</div>
 
-</div>
+        </div>
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
